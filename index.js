@@ -698,18 +698,18 @@ function hanger (z){
 
 
 //--------- Interaction functions -----------------------
-var interactiontext = "Interactions\nB = Blueprint mode\nV = Export SVG\nP = Export PNG\nC = Export colors as TXT\nE = Show layers\n"
+var interactiontext = "Interactions\nB = Blueprint mode\nV = Export SVG\nP = Export PNG\nC = Export colors as TXT\nE = Show layers\nF = Add floating frame\nL = Format for plotting"
 
 view.onDoubleClick = function(event) {
-    console.log("png")
-    canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+'.png');});
+    alert(interactiontext);
+    console.log(project.exportJSON());
+    //canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+'.png');});
 };
 
 document.addEventListener('keypress', (event) => {
 
        //Save as SVG 
        if(event.key == "v") {
-            fileName = $fx.hash;
             var url = "data:image/svg+xml;utf8," + encodeURIComponent(paper.project.exportSVG({asString:true}));
             var key = [];for (l=stacks;l>0;l--){key[stacks-l] = colors[l-1].Name;}; 
             var svg1 = "<!--"+key+"-->" + paper.project.exportSVG({asString:true})
@@ -720,12 +720,13 @@ document.addEventListener('keypress', (event) => {
             link.click();
             }
 
+
         if(event.key == "f") {
             floatingframe();
+            
         }
         
         if(event.key == "F") {
-            floatingframe();
             frameColor = prompt("Frame color(hex)", frameColor);
             floatingframe();
             }    
@@ -733,34 +734,35 @@ document.addEventListener('keypress', (event) => {
 
        //Format for Lightburn
        if(event.key == "b") {
-        floatingframe();
+        fileName = "blueprint-"+$fx.hash;
             for (z=0;z<stacks;z++){
                 sheet[z].style = {fillColor: null,strokeWidth: .1,strokeColor: lightburn[stacks-z-1].Hex,shadowColor: null,shadowBlur: null,shadowOffset: null}
                 sheet[z].selected = true;}
             }
 
+       //Format for plotting
+       if(event.key == "l") {
+            fileName = "Plotting-"+$fx.hash;
+
+            for (z=0;z<stacks;z++){
+            sheet[z].style = {fillColor: null,strokeWidth: .1,strokeColor: plottingColors[stacks-z-1].Hex,shadowColor: null,shadowBlur: null,shadowOffset: null}
+            sheet[z].selected = true;
+            }
+        
+            for (z=0;z<stacks;z++){
+                if (z<stacks-1){
+                    for (zs=z+1;zs<stacks;zs++){
+                        sheet[z] = sheet[z].subtract(sheet[zs]);
+                        sheet[z].previousSibling.remove();
+                    }
+                } 
+                console.log("optimizing")
+            }
+        }
+
         //new hash
-       if(event.key == " ") {
+        if(event.key == " ") {
             setquery("fxhash",null);
-            location.reload();
-            }
-
-            //toggle half vs full width
-            if(event.key == "0") {
-            if(w){setquery("w",null);}
-            if(wide==800) {setquery("w","4");}
-            location.reload();
-            }
-
-        //scale
-       if(event.key == "1" || event.key =="2" ||event.key =="3" || event.key =="4") {
-            setquery("scale",event.key);
-            location.reload();
-            }
-
-        //oriantation
-       if(event.key == "w" || event.key =="t" ||event.key =="s" ) {
-            setquery("orientation",event.key);
             location.reload();
             }
 
@@ -768,38 +770,26 @@ document.addEventListener('keypress', (event) => {
        if(event.key == "h" || event.key == "/") {
             alert(interactiontext);
             }
-
-  
-
-            //layers
-       if(event.key == "l") {
-            var l = prompt("How many layers", stacks);
-            setquery("layers",l);
-            location.reload();
-            }
-        
-        
+             
         //Save as PNG
         if(event.key == "p") {
-            canvas.toBlob(function(blob) {saveAs(blob, $fx.hash+'.png');});
+            canvas.toBlob(function(blob) {saveAs(blob, fileName+'.png');});
             }
 
         //Export colors as txt
         if(event.key == "c") {
-            var key = [];
-            for (l=stacks;l>0;l--){
-                key[stacks-l] =  colors[l-1].Name;
-            }; 
-            console.log(key.reverse())
-            var content = JSON.stringify(key.reverse())
-            var filename = $fx.hash + ".txt";
+            content = JSON.stringify(features,null,2);
+            console.log(content);
+            var filename = "Colors-"+$fx.hash + ".txt";
             var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
             saveAs(blob, filename);
             }
 
 
+
        //Explode the layers     
-       if(event.key == "e") {     
+       if(event.key == "e") {   
+            //floatingframe();  
             h=0;t=0;maxwidth=3000;
                for (z=0; z<sheet.length; z++) { 
                sheet[z].scale(1000/2300)   
