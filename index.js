@@ -100,7 +100,6 @@ definitions = [
         id: "spiky",
         name: "Spikyness",
         type: "number",
-        default: 5,
         options: {
             min: 1,
             max: 30,
