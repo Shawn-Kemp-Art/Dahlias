@@ -65,6 +65,7 @@ definitions = [
         name: "Max # of colors",
         type: "number",
         default: 2,
+        update: "code-driven",
         options: {
             min: 1,
             max: 6,
@@ -213,6 +214,12 @@ definitions = [
 
     ]
 
+//read in query strings
+var qcolors = new URLSearchParams(window.location.search).get('c'); //number of colors
+var qcolor1 = new URLSearchParams(window.location.search).get('c1'); //colors1
+var qcolor2 = new URLSearchParams(window.location.search).get('c2'); //colors2
+var qcolor3 = new URLSearchParams(window.location.search).get('c3'); //colors3
+
 
 
 $fx.params(definitions)
@@ -288,6 +295,11 @@ var colors = []; var palette = [];
 // set a pallete based on color schemes
 var newPalette = [];
 newPalette = this[$fx.getParam('colors1')].concat(this[$fx.getParam('colors2')],this[$fx.getParam('colors3')]);
+
+//Set palette from query sting
+newPalette = this[qcolor1].concat(this[qcolor2],this[qcolor3]);
+
+
 for (c=0; c<numofcolors; c=c+1){palette[c] = newPalette[R.random_int(0, newPalette.length-1)]}  
 console.log(newPalette);
 
