@@ -27,6 +27,23 @@ var seed = Math.floor($fx.rand()*10000000000000000);
 var noise = new perlinNoise3d();
 noise.noiseSeed(seed);
 
+
+//read in query strings
+var qcolor1 = "AllColors";
+if(new URLSearchParams(window.location.search).get('c1')){qcolor1 = new URLSearchParams(window.location.search).get('c1')}; //colors1
+var qcolor2 = "None";
+if(new URLSearchParams(window.location.search).get('c2')){qcolor2 = new URLSearchParams(window.location.search).get('c2')}; //colors2
+var qcolor3 = "None";
+if(new URLSearchParams(window.location.search).get('c3')){qcolor3 = new URLSearchParams(window.location.search).get('c3')}; //colors3
+var qcolors = 2;
+if(new URLSearchParams(window.location.search).get('c')){qcolors = new URLSearchParams(window.location.search).get('c')}; //number of colors
+var qsize = "2";
+if(new URLSearchParams(window.location.search).get('s')){qsize = new URLSearchParams(window.location.search).get('s')}; //size
+var qcomplexity = 2;
+if(new URLSearchParams(window.location.search).get('d')){qcomplexity = new URLSearchParams(window.location.search).get('d')}; //size
+
+
+
 definitions = [
     {
         id: "layers",
@@ -43,7 +60,6 @@ definitions = [
         id: "orientation",
         name: "Orientation",
         type: "select",
-        default: "portrait",
         options: {options: ["portrait", "landscape"]},
     },
     {
@@ -57,15 +73,14 @@ definitions = [
         id: "size",
         name: "Size",
         type: "select",
-        default: "2",
+        default: qsize,
         options: {options: ["1", "2", "3"]},
     },
     {
         id: "colors",
         name: "Max # of colors",
         type: "number",
-        default: 2,
-        update: "code-driven",
+        default: qcolors,
         options: {
             min: 1,
             max: 6,
@@ -76,38 +91,37 @@ definitions = [
         id: "colors1",
         name: "Pallete 1",
         type: "select",
-        default: "AllColors",
+        default: qcolor1,
         options: {options: palleteNames},
     },
     {
         id: "colors2",
         name: "Pallete 2",
         type: "select",
-        default: "None",
+        default: qcolor2,
         options: {options: palleteNames},
     },
     {
         id: "colors3",
         name: "Pallete 3",
         type: "select",
-        default: "None",
+        default: qcolor3,
         options: {options: palleteNames},
     },
     {
         id: "framecolor",
         name: "Frame color",
         type: "select",
-        default: "White",
         options: {options: ["Random","White","Mocha"]},
     },
     {
         id: "number_ripples",
         name: "Dahlias",
         type: "number",
-        default: 2,
+        default: qcomplexity,
         options: {
             min: 1,
-            max: 9,
+            max: 10,
             step: 1,
         },  
     },
@@ -125,7 +139,6 @@ definitions = [
         id: "density",
         name: "Detail",
         type: "number",
-        default: 5,
         options: {
             min: 5,
             max: 15,
@@ -136,7 +149,6 @@ definitions = [
         id: "spread",
         name: "Spread",
         type: "number",
-        default: 45,
         options: {
             min: 15,
             max: 65,
@@ -147,20 +159,17 @@ definitions = [
         id: "Style",
         name: "Style",
         type: "select",
-        default: "Vertical",
         options: {options: ["Vertical","Horizontal","Hex","Rings","Diamonds","Triangles","Waves"]},
     },
     {
         id: "rain",
         name: "Rain",
         type: "boolean",
-        default: false,
     },
     {
         id: "xwav",
         name: "WaveX",
         type: "number",
-        default: 40,
         options: {
             min: 20,
             max: 40,
@@ -182,7 +191,6 @@ definitions = [
         id: "xoss",
         name: "WaveA",
         type: "number",
-        default: 1.12,
         options: {
             min: 1.1,
             max: 1.5,
@@ -193,7 +201,6 @@ definitions = [
         id: "yoss",
         name: "WaveB",
         type: "number",
-        default: 1.16,
         options: {
             min: 1.1,
             max: 1.5,
@@ -214,11 +221,7 @@ definitions = [
 
     ]
 
-//read in query strings
-var qcolors = new URLSearchParams(window.location.search).get('c'); //number of colors
-var qcolor1 = new URLSearchParams(window.location.search).get('c1'); //colors1
-var qcolor2 = new URLSearchParams(window.location.search).get('c2'); //colors2
-var qcolor3 = new URLSearchParams(window.location.search).get('c3'); //colors3
+
 
 
 
@@ -235,8 +238,7 @@ if ($fx.getParam("Style") == "Rings"){backgroundStyle = 3};
 if ($fx.getParam("Style") == "Diamonds"){backgroundStyle = 4};
 if ($fx.getParam("Style") == "Triangles"){backgroundStyle = 5};
 if ($fx.getParam("Style") == "Waves"){backgroundStyle = 6};
-if ($fx.getParam("rain") == "Yes"){var raining = 10};
-if ($fx.getParam("rain") == "No"){var raining = 0};
+var raining = 0; if ($fx.getParam("rain") ){var raining = 10};
 var petalspiky = $fx.getParam('spiky');
   var lspread =  $fx.getParam('spread'); 
 
@@ -297,7 +299,7 @@ var newPalette = [];
 newPalette = this[$fx.getParam('colors1')].concat(this[$fx.getParam('colors2')],this[$fx.getParam('colors3')]);
 
 //Set palette from query sting
-newPalette = this[qcolor1].concat(this[qcolor2],this[qcolor3]);
+//newPalette = this[qcolor1].concat(this[qcolor2],this[qcolor3]);
 
 
 for (c=0; c<numofcolors; c=c+1){palette[c] = newPalette[R.random_int(0, newPalette.length-1)]}  
