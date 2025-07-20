@@ -42,6 +42,20 @@ if(new URLSearchParams(window.location.search).get('s')){qsize = new URLSearchPa
 var qcomplexity = R.random_int(1,10);
 if(new URLSearchParams(window.location.search).get('d')){qcomplexity = new URLSearchParams(window.location.search).get('d')}; //size
 
+var qorientation =R.random_int(1,2) < 1 ? "portrait" : "landscape";
+var qframecolor = R.random_int(1,3) < 1 ? "White" : R.random_int(1,3) < 2 ? "Mocha" : "Random";
+var qspiky = R.random_int(1,30);
+var qdensity = R.random_int(5,15);
+var qspread = R.random_int(15,65);
+var qstyle = R.random_int(1,7) < 1 ? "Vertical" : R.random_int(1,7) < 2 ? "Horizontal" : R.random_int(1,7) < 3 ? "Hex" : R.random_int(1,7) < 4 ? "Rings" : R.random_int(1,7) < 5 ? "Diamonds" : R.random_int(1,7) < 6 ? "Triangles" : "Waves";
+var qrain = R.random_int(1,2) < 1 ? true : false;
+var qxwav = R.random_int(20,40);
+var qywav = R.random_int(9,23);
+var qxoss = 1.10+R.random_dec()*.3;
+var qyoss = 1.05+R.random_dec()*.3;
+var qmatwidth = R.random_int(50,100);
+
+
 
 
 definitions = [
@@ -60,6 +74,7 @@ definitions = [
         id: "orientation",
         name: "Orientation",
         type: "select",
+        default: qorientation,
         options: {options: ["portrait", "landscape"]},
     },
     {
@@ -112,6 +127,7 @@ definitions = [
         id: "framecolor",
         name: "Frame color",
         type: "select",
+        default: qframecolor,
         options: {options: ["Random","White","Mocha"]},
     },
     {
@@ -129,6 +145,7 @@ definitions = [
         id: "spiky",
         name: "Spikyness",
         type: "number",
+        default: qspiky,
         options: {
             min: 1,
             max: 30,
@@ -139,6 +156,7 @@ definitions = [
         id: "density",
         name: "Detail",
         type: "number",
+        default: qdensity,
         options: {
             min: 5,
             max: 15,
@@ -149,6 +167,7 @@ definitions = [
         id: "spread",
         name: "Spread",
         type: "number",
+        default: qspread,
         options: {
             min: 15,
             max: 65,
@@ -159,17 +178,20 @@ definitions = [
         id: "Style",
         name: "Style",
         type: "select",
+        default: qstyle,
         options: {options: ["Vertical","Horizontal","Hex","Rings","Diamonds","Triangles","Waves"]},
     },
     {
         id: "rain",
         name: "Rain",
         type: "boolean",
+        default: qrain,
     },
     {
         id: "xwav",
         name: "WaveX",
         type: "number",
+        default: qxwav,
         options: {
             min: 20,
             max: 40,
@@ -180,7 +202,7 @@ definitions = [
         id: "ywav",
         name: "WaveY",
         type: "number",
-        default: 23,
+        default: qywav,
         options: {
             min: 9,
             max: 23,
@@ -191,6 +213,7 @@ definitions = [
         id: "xoss",
         name: "WaveA",
         type: "number",
+        default: qxoss,
         options: {
             min: 1.1,
             max: 1.5,
@@ -201,6 +224,7 @@ definitions = [
         id: "yoss",
         name: "WaveB",
         type: "number",
+        default: qyoss,
         options: {
             min: 1.1,
             max: 1.5,
@@ -211,7 +235,7 @@ definitions = [
         id: "matwidth",
         name: "Mat size",
         type: "number",
-        default: 75,
+        default: qmatwidth,
         options: {
             min: 50,
             max: 200,
