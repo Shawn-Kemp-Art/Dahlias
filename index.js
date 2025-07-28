@@ -43,12 +43,12 @@ var qcomplexity = R.random_int(1,10);
 if(new URLSearchParams(window.location.search).get('d')){qcomplexity = new URLSearchParams(window.location.search).get('d')}; //size
 
 var qorientation =R.random_int(1,2) < 2 ? "portrait" : "landscape";
-var qframecolor = R.random_int(1,3) < 1 ? "White" : R.random_int(1,3) < 2 ? "Mocha" : "Random";
+var qframecolor = R.random_int(0,3) < 1 ? "White" : R.random_int(1,3) < 2 ? "Mocha" : "Random";
 var qspiky = R.random_int(1,30);
 var qdensity = R.random_int(5,15);
 var qspread = R.random_int(15,65);
-var qstyle = R.random_int(1,7) < 1 ? "Vertical" : R.random_int(1,7) < 2 ? "Horizontal" : R.random_int(1,7) < 3 ? "Hex" : R.random_int(1,7) < 4 ? "Rings" : R.random_int(1,7) < 5 ? "Diamonds" : R.random_int(1,7) < 6 ? "Triangles" : "Waves";
-var qrain = R.random_int(1,2) < 1 ? true : false;
+var qstyle = R.random_int(0,7) < 1 ? "Vertical" : R.random_int(1,7) < 2 ? "Horizontal" : R.random_int(1,7) < 3 ? "Hex" : R.random_int(1,7) < 4 ? "Rings" : R.random_int(1,7) < 5 ? "Diamonds" : R.random_int(1,7) < 6 ? "Triangles" : "Waves";
+var qrain = R.random_int(0,2) < 1 ? true : false;
 var qxwav = R.random_int(20,40);
 var qywav = R.random_int(9,23);
 var qxoss = 1.10+R.random_dec()*.3;
