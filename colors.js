@@ -51,8 +51,7 @@ var tints = [
       {"Hex":"#C5D785", "Name":"Pistachio"},
       {"Hex":"#F7743E", "Name":"Tangerine"},
       {"Hex":"#1A1A1A", "Name":"Smooth Black"},
-      {"Hex":"#FFFFFF", "Name":"Smooth White"},
-      {"Hex":"#949B6F", "Name":"Valley Green"},
+      {"Hex":"#FFFFFF", "Name":"Smooth White"}
       ]
   
     var colornames = AllColors.map(color => color.Name);
